@@ -14,7 +14,7 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
 def doit():
-    parser = argparse.ArgumentParser(description='Object Detect Directory')
+    parser = argparse.ArgumentParser(description='USD morph')
     parser.add_argument('--area', 
                         help='a predefined area to query against: currently eb12 or msft',
                         default='eb12')
@@ -112,29 +112,35 @@ def doit():
 
 
 def parseargs():
-    parser = argparse.ArgumentParser(description='Object Detect Directory')
-    parser.add_argument('--input',
-                        help='the directory of the input frames')
-    parser.add_argument('--output',
-                        help='the direcotry to store object detection results')
-    parser.add_argument('--frame',default="",
-                        help='the frame file name')
-    parser.add_argument('--delframe',default=False,action='store_true',
-                        help='delete frame after detection')
-    parser.add_argument('--boxplotlev',default=0,type=int,
-                        help='create plots with detection boxes')
-    parser.add_argument('--redactlev',default=0,type=int,
-                        help='redact frames (crop heads of persons')
-    parser.add_argument('--conflim',default=0.5,type=float,
-                        help='confidence limit for detection')
-    parser.add_argument('--numfcand',default=50,type=int,
-                        help='number of first stage candidates for object detection')
-    parser.add_argument('--modelname',default="rfcn-res101-2017",
-                        help='model name for detection')
-    parser.add_argument('--maxobjnum',default=0,
-                        help="max detection object number - zero means none")
-    parser.add_argument('--pooldir',default="",
-                        help="Directory to pool compartive results to")
+    parser = argparse.ArgumentParser(description='USD Morph')
+    parser.add_argument('--ifname',default="",
+                        help='the input USD file name')
+    parser.add_argument('--ofname',default="",
+                        help='the output USD file name - default has -out appended to name')
+    # parser.add_argument('--buffer',
+    #                     help='buffer the lines before processing')
+    # parser.add_argument('--input',
+    #                     help='the directory of the input frames')
+    # parser.add_argument('--output',
+    #                     help='the direcotry to store object detection results')
+    # parser.add_argument('--frame',default="",
+    #                     help='the frame file name')
+    # parser.add_argument('--delframe',default=False,action='store_true',
+    #                     help='delete frame after detection')
+    # parser.add_argument('--boxplotlev',default=0,type=int,
+    #                     help='create plots with detection boxes')
+    # parser.add_argument('--redactlev',default=0,type=int,
+    #                     help='redact frames (crop heads of persons')
+    # parser.add_argument('--conflim',default=0.5,type=float,
+    #                     help='confidence limit for detection')
+    # parser.add_argument('--numfcand',default=50,type=int,
+    #                     help='number of first stage candidates for object detection')
+    # parser.add_argument('--modelname',default="rfcn-res101-2017",
+    #                     help='model name for detection')
+    # parser.add_argument('--maxobjnum',default=0,
+    #                     help="max detection object number - zero means none")
+    # parser.add_argument('--pooldir',default="",
+    #                     help="Directory to pool compartive results to")
     args = parser.parse_args() 
     print("parsed args")
     return args
@@ -142,11 +148,21 @@ def parseargs():
 args = parseargs()
     
 
+def initbuffer(usdfname:str):
+    with open(usdfname) as file:
+        lines = file.readlines()
+    print(f"read {len(lines)} lines")
+    return lines
 
+def dowork(ifname:str,ofname:str):
+    initbuffer(ifname)
 
-print(f"Console Template")
+print(f"USD morph")
 
-
+if (args.ifname==""):
+    print(f"error - no name specified")
+else:
+    dowork(args.ifname,args.ofname)    
 
 elap = time.time() - starttime
 print(f"main execution took {elap:.2f} secs")
