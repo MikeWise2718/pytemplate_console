@@ -4,11 +4,12 @@
 - From a DOS prompt use `.venv\scripts\activate`
 - to change the version of python in that `.venv` 
 
+
 ## To do
 - rationalize switch template code
    - categorize the things we are likely to want to do
    - make those things
    - get rid of the leftovers cruft
 
-X Add `launch.json` for debugging
-X Add color coded output
+- Add launch.json for debuggins
+- Add color coded output

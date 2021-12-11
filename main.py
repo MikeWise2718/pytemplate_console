@@ -1,7 +1,13 @@
 import argparse
 import time
-
+import datetime
+import colorama
+from colorama import Fore, Back, Style
+colorama.init()
 starttime = time.time()
+startdaytime = datetime.datetime.now()
+print(Fore.YELLOW+f"Starting main.py at:{startdaytime}")
+
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -117,14 +123,6 @@ def parseargs():
                         help='the input USD file name')
     parser.add_argument('--ofname',default="",
                         help='the output USD file name - default has -out appended to name')
-    # parser.add_argument('--buffer',
-    #                     help='buffer the lines before processing')
-    # parser.add_argument('--input',
-    #                     help='the directory of the input frames')
-    # parser.add_argument('--output',
-    #                     help='the direcotry to store object detection results')
-    # parser.add_argument('--frame',default="",
-    #                     help='the frame file name')
     # parser.add_argument('--delframe',default=False,action='store_true',
     #                     help='delete frame after detection')
     # parser.add_argument('--boxplotlev',default=0,type=int,
@@ -137,10 +135,6 @@ def parseargs():
     #                     help='number of first stage candidates for object detection')
     # parser.add_argument('--modelname',default="rfcn-res101-2017",
     #                     help='model name for detection')
-    # parser.add_argument('--maxobjnum',default=0,
-    #                     help="max detection object number - zero means none")
-    # parser.add_argument('--pooldir',default="",
-    #                     help="Directory to pool compartive results to")
     args = parser.parse_args() 
     print("parsed args")
     return args
@@ -148,16 +142,18 @@ def parseargs():
 args = parseargs()
     
 
-def initbuffer(usdfname:str):
-    with open(usdfname) as file:
+def initbuffer(fname:str):
+    with open(fname) as file:
         lines = file.readlines()
     print(f"read {len(lines)} lines")
     return lines
 
+
+
 def dowork(ifname:str,ofname:str):
     initbuffer(ifname)
 
-print(f"USD morph")
+
 
 if (args.ifname==""):
     print(f"error - no name specified")
@@ -165,4 +161,4 @@ else:
     dowork(args.ifname,args.ofname)    
 
 elap = time.time() - starttime
-print(f"main execution took {elap:.2f} secs")
+print(Fore.BLUE+f"main.py execution took {elap:.2f} secs")
